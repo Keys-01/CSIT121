@@ -1,5 +1,4 @@
 import time
-#hey gitbuh!
 import sys
 global loaded_pokemon
 loaded_pokemon = []
