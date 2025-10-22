@@ -624,23 +624,17 @@ class Trainer():
 def StartMenu(trainer1):
     while True:
         user_input = ""
-        print("Menu:")
-        print()
+        print("=== Menu ===")
         time.sleep(0.02)
         print("Option 1: Create new pokedex entry")
-        print()
         time.sleep(0.02)
         print("Option 2: Search pokedex for pokemon by name")
-        print()
         time.sleep(0.02)
         print("Option 3: Edit pokemon data within pokedex")
-        print()
         time.sleep(0.02)
         print("Option 4: Generate report of all pokemon of a certain type (e.g., Fire, Water, Grass, Electric)")
-        print()
         time.sleep(0.02)
         print("Option Exit or X: Exits the program")
-        print()
         user_input = input("")
         
         #option handling
