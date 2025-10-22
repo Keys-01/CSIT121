@@ -678,8 +678,11 @@ def StartMenu(trainer1):
             user_input = input("Would you like to save your current pokedex? (Y/N)")
             if user_input.lower() == "y":
                 #make save file
-                open("pokemon.txt", "a").close()
-                with open("pokemon.txt", "a") as file:
+                filename = input("What file name would you like to save it as? (default: pokemon.txt): ")
+                if not filename:
+                    filename = "pokemon.txt"
+                open(filename, "a").close()
+                with open(filename, "a") as file:
                     for pokemon in trainer1.pokedex.PokemonList:
                         # Skip already loaded Pokémon
                         if pokemon.name in loaded_pokemon:
