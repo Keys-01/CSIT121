@@ -361,7 +361,7 @@ class Pokemon():
     #editing method
     def Edit_Pokemon(self):
         attributes_available = ["name", "National_number", "species", "Height", "Weight", "Abilities", "hp", "attack", "Defense", "sp_attack", "sp_defense", "speed"]
-        int_attributes = ["National_number", "hp", "attack", "Defense", "sp_attack", "sp_defense", "speed"]
+        int_attributes = ["hp", "attack", "Defense", "sp_attack", "sp_defense", "speed"]
         user_intput = input("which attribute would you like to change? ")
         if user_intput in attributes_available:
             if user_intput == "Abilities":
