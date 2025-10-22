@@ -1,4 +1,5 @@
 import time
+import json
 import sys
 global loaded_pokemon
 loaded_pokemon = []
@@ -178,81 +179,116 @@ class Pokedex():
         #custom filename input
         filename = input("Enter the save file name to load (default: pokemon.txt): ")
         if not filename:
-            filename = "pokemon.txt"
-        try:
-            with open(filename, 'r') as file:
-                attributes_available = ["Name", "National Number", "Type", "Species", "Height", "Weight", "Abilities","Total", "HP", "Attack", "Defence", "Special Attack", "Special Defense", "Speed"]
-                iteration = 0
-                end = 0
-                active_attributes = []
-                global loaded_pokemon
-                loaded_pokemon = []
-                for line in file:
-                    skip = False
-                    if not line.strip():  # Skip empty lines
-                        continue
-                    if ':' not in line:   # Skip lines without ':'
-                        continue
-                    data = line.strip().split(': ')
-                    if len(data) < 2:
-                        continue  # Skip lines that don't have both key and value
-                    key = data[0].strip()
-                    value = data[1].strip()
-                    if key == attributes_available[iteration - 1]:
-                        passed = True
-                        pass 
-                    elif iteration == 2 and key != attributes_available[iteration]:
-                        #debugging prints
-                        '''print(f"expected {attributes_available[iteration]}, but got {key}. Setting Type to 'None'.")
-                        print(data)'''
-                        passed = False
-                        skip = True
-                        if attributes_available[iteration].lower() == "type":
-                            active_attributes.append("None")  # Default value for missing Type
-                            iteration += 1
-                        
-                        
+                filename = "pokemon.txt"
+        file_type = filename.split('.')
+        if len(file_type) < 2:
+            print("Invalid file name. Please include a file extension (e.g., .txt or .json).")
+            trainer1.pokedex.load_save_file("pokemon.txt")
+            return
+        if file_type[1] == "txt":
+            try:
+                with open(filename, 'r') as file:
+                    attributes_available = ["Name", "National Number", "Type", "Species", "Height", "Weight", "Abilities","Total", "HP", "Attack", "Defence", "Special Attack", "Special Defense", "Speed"]
+                    iteration = 0
+                    end = 0
+                    active_attributes = []
+                    global loaded_pokemon
+                    loaded_pokemon = []
+                    for line in file:
+                        skip = False
+                        if not line.strip():  # Skip empty lines
+                            continue
+                        if ':' not in line:   # Skip lines without ':'
+                            continue
+                        data = line.strip().split(': ')
+                        if len(data) < 2:
+                            continue  # Skip lines that don't have both key and value
+                        key = data[0].strip()
+                        value = data[1].strip()
+                        if key == attributes_available[iteration - 1]:
+                            passed = True
+                            pass 
+                        elif iteration == 2 and key != attributes_available[iteration]:
+                            #debugging prints
+                            '''print(f"expected {attributes_available[iteration]}, but got {key}. Setting Type to 'None'.")
+                            print(data)'''
+                            passed = False
+                            skip = True
+                            if attributes_available[iteration].lower() == "type":
+                                active_attributes.append("None")  # Default value for missing Type
+                                iteration += 1
+                            
+                            
 
-                    if key in attributes_available:
-                        if key == "Abilities":
-                            value = [ability.strip() for ability in value.split(',')]
-                        elif key in ["National_number", "hp", "attack", "Defense", "sp_attack", "sp_defense", "speed"]:
-                            try:
-                                value = int(value)
-                            except ValueError:
-                                print(f"Invalid integer for {key}, defaulting to 0.")
-                                value = 0
-                    active_attributes.append(value)
-                    '''del active_attributes[iteration]'''
+                        if key in attributes_available:
+                            if key == "Abilities":
+                                value = [ability.strip() for ability in value.split(',')]
+                            elif key in ["National_number", "hp", "attack", "Defense", "sp_attack", "sp_defense", "speed"]:
+                                try:
+                                    value = int(value)
+                                except ValueError:
+                                    print(f"Invalid integer for {key}, defaulting to 0.")
+                                    value = 0
+                        active_attributes.append(value)
+                        '''del active_attributes[iteration]'''
 
-                    iteration += 1
-                    #accounting for logic error in irteration counting
-                    if iteration == 14:
-                        end = 4
+                        iteration += 1
+                        #accounting for logic error in irteration counting
+                        if iteration == 14:
+                            end = 4
 
-                    #2 different ways to end each pokemon's stat block, due to logic error in iteration counting
-                    if iteration == 14:
-                        #debugging prints
-                        '''print(iteration)
-                        print(active_attributes)'''
-                        pokemon = Pokemon(*active_attributes)
+                        #2 different ways to end each pokemon's stat block, due to logic error in iteration counting
+                        if iteration == 14:
+                            #debugging prints
+                            '''print(iteration)
+                            print(active_attributes)'''
+                            pokemon = Pokemon(*active_attributes)
+                            loaded_pokemon.append(pokemon.name)
+                            self.PokemonList.append(pokemon)
+                            iteration = 0
+                            active_attributes = []
+                            end = 0
+                        elif end == 4: 
+                            pokemon = Pokemon(*active_attributes)
+                            loaded_pokemon.append(pokemon.name)
+                            self.PokemonList.append(pokemon)
+                            iteration = 0
+                            active_attributes = []
+                            end = 0
+                print("Save File loaded successfully.")
+                print(loaded_pokemon)
+            except FileNotFoundError:
+                print("Save File not found.")
+        if file_type[1] == "json":
+            try:
+                with open(filename, 'r') as file:
+                    data = json.load(file)
+                    loaded_pokemon = []
+                    for item in data:
+                        name = item.get("name", "Unknown")
+                        National_number = item.get("National_number", 0)
+                        Type = item.get("Type", "Unknown")
+                        species = item.get("species", "Unknown")
+                        Height = item.get("Height", "0.0m")
+                        Weight = item.get("Weight", "0.0kg")
+                        Abilities = item.get("Abilities", [])
+                        total = item.get("total", 0)
+                        hp = item.get("hp", 0)
+                        attack = item.get("attack", 0)
+                        Defense = item.get("Defense", 0)
+                        sp_attack = item.get("sp_attack", 0)
+                        sp_defense = item.get("sp_defense", 0)
+                        speed = item.get("speed", 0)
+
+                        pokemon = Pokemon(name, National_number, Type, species, Height, Weight, Abilities, total, hp, attack, Defense, sp_attack, sp_defense, speed)
                         loaded_pokemon.append(pokemon.name)
                         self.PokemonList.append(pokemon)
-                        iteration = 0
-                        active_attributes = []
-                        end = 0
-                    elif end == 4: 
-                        pokemon = Pokemon(*active_attributes)
-                        loaded_pokemon.append(pokemon.name)
-                        self.PokemonList.append(pokemon)
-                        iteration = 0
-                        active_attributes = []
-                        end = 0
-            print("Save File loaded successfully.")
-            print(loaded_pokemon)
-        except FileNotFoundError:
-            print("Save File not found.")
-
+                    print(loaded_pokemon)
+                    print("save file loaded successfully.")
+            except FileNotFoundError:
+                print("Save File not found.")
+        if not filename:
+            print("No filename provided. Skipping load.")
 
 #pokemon class
 class Pokemon():
@@ -685,30 +721,58 @@ def StartMenu(trainer1):
                 filename = input("What file name would you like to save it as? (default: pokemon.txt): ")
                 if not filename:
                     filename = "pokemon.txt"
-                open(filename, "a").close()
-                with open(filename, "a") as file:
-                    for pokemon in trainer1.pokedex.PokemonList:
-                        # Skip already loaded Pokémon
-                        if pokemon.name in loaded_pokemon:
-                            continue  
-                        abilities_str = ' '.join(pokemon.Abilities) if isinstance(pokemon.Abilities, list) else pokemon.Abilities
-                        file.write("\n"
-                                    f"name: {pokemon.name}\n"
-                                    f"National_number: {pokemon.National_number}\n"
-                                    f"Type: {pokemon.Type}\n"
-                                    f"species: {pokemon.species}\n"
-                                    f"Height: {pokemon.Height}\n"
-                                    f"Weight: {pokemon.Weight}\n"
-                                    f"abilities: {abilities_str}\n"
-                                    f"Stats:\n"
-                                    f"  total: {pokemon.total}\n"
-                                    f"  hp: {pokemon.hp}\n"
-                                    f"  attack: {pokemon.attack}\n"
-                                    f"  Defense: {pokemon.Defense}\n"
-                                    f"  sp_attack: {pokemon.sp_attack}\n"
-                                    f"  sp_defense: {pokemon.sp_defense}\n"
-                                    f"  speed: {pokemon.speed}\n\n")
-                print("Pokedex saved successfully. Exiting now.")
+                file_type = filename.split('.')
+                if file_type[1] == "json":
+                    open(filename, "w").close()
+                    with open(filename, "w") as file:
+                        data = []
+                        for pokemon in trainer1.pokedex.PokemonList:
+                            # Skip already loaded Pokémon
+                            if pokemon.name in loaded_pokemon:
+                                continue  
+                            pokemon_data = {
+                                "name": pokemon.name,
+                                "National_number": pokemon.National_number,
+                                "Type": pokemon.Type,
+                                "species": pokemon.species,
+                                "Height": pokemon.Height,
+                                "Weight": pokemon.Weight,
+                                "Abilities": pokemon.Abilities,
+                                "total": pokemon.total,
+                                "hp": pokemon.hp,
+                                "attack": pokemon.attack,
+                                "Defense": pokemon.Defense,
+                                "sp_attack": pokemon.sp_attack,
+                                "sp_defense": pokemon.sp_defense,
+                                "speed": pokemon.speed
+                            }
+                            data.append(pokemon_data)
+                        json.dump(data, file, indent=4)
+                elif file_type[1] == "txt": 
+                    open(filename, "a").close()
+                    with open(filename, "a") as file:
+                        for pokemon in trainer1.pokedex.PokemonList:
+                            # Skip already loaded Pokémon
+                            if pokemon.name in loaded_pokemon:
+                                continue  
+                            abilities_str = ' '.join(pokemon.Abilities) if isinstance(pokemon.Abilities, list) else pokemon.Abilities
+                            file.write("\n"
+                                        f"name: {pokemon.name}\n"
+                                        f"National_number: {pokemon.National_number}\n"
+                                        f"Type: {pokemon.Type}\n"
+                                        f"species: {pokemon.species}\n"
+                                        f"Height: {pokemon.Height}\n"
+                                        f"Weight: {pokemon.Weight}\n"
+                                        f"abilities: {abilities_str}\n"
+                                        f"Stats:\n"
+                                        f"  total: {pokemon.total}\n"
+                                        f"  hp: {pokemon.hp}\n"
+                                        f"  attack: {pokemon.attack}\n"
+                                        f"  Defense: {pokemon.Defense}\n"
+                                        f"  sp_attack: {pokemon.sp_attack}\n"
+                                        f"  sp_defense: {pokemon.sp_defense}\n"
+                                        f"  speed: {pokemon.speed}\n\n")
+                            print("Pokedex saved successfully. Exiting now.")
                                     
 
                 sys.exit()

@@ -1,0 +1,102 @@
+
+name: Pikachu
+National_number: 25
+Type: Electric
+species: Mouse Pokemon
+Height: 0.4m
+Weight: 6.0kg
+abilities: Static Lightning Rod
+Stats:
+  total: 340
+  hp: 35
+  attack: 55
+  Defense: 40
+  sp_attack: 50
+  sp_defense: 70.0
+  speed: 90
+
+
+name: Bulbasaur
+National_number: 1
+Type: Grass
+species: Seed Pokemon
+Height: 0.7m
+Weight: 6.9kg
+abilities: Overgrow Chlorophyll
+Stats:
+  total: 318
+  hp: 45
+  attack: 49
+  Defense: 49
+  sp_attack: 65
+  sp_defense: 65
+  speed: 45
+
+
+name: Charmander
+National_number: 4
+Type: Fire
+species: Lizard Pokemon
+Height: 0.6m
+Weight: 8.5kg
+abilities: Blaze Solar Power
+Stats:
+  total: 309
+  hp: 39
+  attack: 52
+  Defense: 43
+  sp_attack: 60
+  sp_defense: 50
+  speed: 65
+
+
+name: Raichu
+National_number: 26
+Type: Electric
+species: Mouse Pokemon
+Height: 0.8m
+Weight: 30.0kg
+abilities: Static Lightning Rod
+Stats:
+  total: 485
+  hp: 60
+  attack: 90
+  Defense: 55
+  sp_attack: 90
+  sp_defense: 80
+  speed: 110
+
+
+name: Ivysaur
+National_number: 2
+Type: Grass
+species: Seed Pokemon
+Height: 1.0m
+Weight: 13.0kg
+abilities: Overgrow Chlorophyll
+Stats:
+  total: 422
+  hp: 60
+  attack: 62
+  Defense: 60
+  sp_attack: 80
+  sp_defense: 80
+  speed: 80
+
+
+name: Charizard
+National_number: 6
+Type: Fire
+species: Flame Pokemon
+Height: 1.7m
+Weight: 90.5kg
+abilities: Blaze Solar Power
+Stats:
+  total: 534
+  hp: 78
+  attack: 84
+  Defense: 78
+  sp_attack: 109
+  sp_defense: 85
+  speed: 100
+
