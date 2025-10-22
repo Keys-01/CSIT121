@@ -368,6 +368,55 @@ class Pokemon():
                 print("Please enter the abilities as a comma-separated list (e.g., Ability1, Ability2):")
                 new_value = input("New Abilities: ")
                 new_value = [ability.strip() for ability in new_value.split(",")]
+            elif user_intput == "National_number":
+                new_value = input("Please enter the new value for {0} here (integer only): ".format(user_intput))
+                try:
+                    new_value = int(new_value)
+                except ValueError:
+                    print("Invalid value for {0}, no change made.".format(user_intput))
+                    print("Exiting edit mode.")
+                    return self
+                
+
+                
+            elif user_intput == "Weight":
+                new_value = input("Please enter the new value for {0} here (include units, e.g., '56.4kg'): ".format(user_intput))
+                if new_value.endswith("kg"):
+                    new_value = new_value[:-2]  # Remove the 'kg' for conversion
+                    try:
+                        new_value = float(new_value)
+                    except ValueError:
+                        print("Invalid value for {0}, no change made.".format(user_intput))
+                        print("Exiting edit mode.")
+                        return self
+                try:
+                    new_value = int(new_value)
+                    new_value = float(new_value)
+                except ValueError:
+                    print("Invalid value for {0}, no change made.".format(user_intput))
+                    print("Exiting edit mode.")
+                    return self
+                new_value = str(new_value) + "kg"
+
+                #height same as weight but different units
+            elif user_intput == "Height":
+                new_value = input("Please enter the new value for {0} here (include units, e.g., '10.0m'): ".format(user_intput))
+                if new_value.endswith("m"):
+                    new_value = new_value[:-1]  # Remove the 'm' for conversion
+                    try:
+                        new_value = float(new_value)
+                    except ValueError:
+                        print("Invalid value for {0}, no change made.".format(user_intput))
+                        print("Exiting edit mode.")
+                        return self
+                try:
+                    new_value = int(new_value)
+                    new_value = float(new_value)
+                except ValueError:
+                    print("Invalid value for {0}, no change made.".format(user_intput))
+                    print("Exiting edit mode.")
+                    return self
+                new_value = str(new_value) + "m"
             else:
                 new_value = input("Please enter the new value for {0} here: ".format(user_intput))
             if user_intput in int_attributes:
