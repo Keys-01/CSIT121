@@ -175,6 +175,10 @@ class Pokedex():
         """StartMenu(trainer1)"""
     
     def load_save_file(self, filename):
+        #custom filename input
+        filename = input("Enter the save file name to load (default: pokemon.txt): ")
+        if not filename:
+            filename = "pokemon.txt"
         try:
             with open(filename, 'r') as file:
                 attributes_available = ["Name", "National Number", "Type", "Species", "Height", "Weight", "Abilities","Total", "HP", "Attack", "Defence", "Special Attack", "Special Defense", "Speed"]
