@@ -332,8 +332,38 @@ class Pokedex():
         plt.savefig("pokemon_types_distribution.png")
         plt.show()
 
+        # Clear the current figure
+        plt.clf()  
 
-    
+        #bar chart for pokemon total stats
+        plt.bar(stats["name"], stats["total"])
+        plt.title("Pokémon Total Stats")
+        plt.xlabel("Pokémon")
+        plt.ylabel("Total Stats")
+        plt.xticks(rotation=90)
+        plt.tight_layout()
+
+        # Save the bar chart as a PNG file
+        plt.savefig("pokemon_total_stats.png")
+        plt.show()
+        # Clear the current figure
+        plt.clf()
+
+        #bar chart for individual stats
+        stat_names = ["hp", "attack", "Defense", "sp_attack", "sp_defense", "speed"]
+        for stat in stat_names:
+            plt.plot(stats["name"], stats[stat])
+            plt.title("Pokémon {0} Stats".format(stat.capitalize()))
+            plt.xlabel("Pokémon")
+            plt.ylabel("{0} Stats".format(stat.capitalize()))
+            plt.xticks(rotation=90)
+            plt.tight_layout()
+
+            # Save the bar chart as a PNG file
+            plt.savefig("pokemon_{0}_stats.png".format(stat))
+            plt.show()
+            # Clear the current figure
+            plt.clf()
 
 
 #pokemon class
