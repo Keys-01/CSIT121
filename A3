@@ -290,6 +290,10 @@ class Pokedex():
         if not filename:
             print("No filename provided. Skipping load.")
 
+    def graph_stats(self):
+        pass
+
+
 #pokemon class
 class Pokemon():
     #init for class attributes, (pokemon stats)
