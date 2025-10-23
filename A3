@@ -1,5 +1,7 @@
 import time
+import matplotlib.pyplot as plt
 import json
+import os
 import sys
 global loaded_pokemon
 loaded_pokemon = []
@@ -291,7 +293,47 @@ class Pokedex():
             print("No filename provided. Skipping load.")
 
     def graph_stats(self):
-        pass
+        # Collect all relevant stats for each Pokémon
+        stats = {
+            "hp": [],
+            "attack": [],
+            "Defense": [],
+            "sp_attack": [],
+            "sp_defense": [],
+            "speed": [],
+            "name": [],
+            "Type": [],
+            "total": []
+        }
+
+        for pokemon in self.PokemonList:
+            stats["hp"].append(pokemon.hp)
+            stats["attack"].append(pokemon.attack)
+            stats["Defense"].append(pokemon.Defense)
+            stats["sp_attack"].append(pokemon.sp_attack)
+            stats["sp_defense"].append(pokemon.sp_defense)
+            stats["speed"].append(pokemon.speed)
+            stats["name"].append(pokemon.name)
+            stats["Type"].append(pokemon.Type)
+            stats["total"].append(pokemon.total)
+        print(stats)
+
+        #pie chart for pokemon types
+        #count each type occurence
+        type_counts = {}
+        for t in stats["Type"]:
+            type_counts[t] = type_counts.get(t, 0) + 1
+
+        plt.pie(type_counts.values(), labels=type_counts.keys(), autopct='%1.1f%%')
+        plt.title("Pokémon Types Distribution")
+        plt.axis("equal")  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+        # Save the pie chart as a PNG file
+        plt.savefig("pokemon_types_distribution.png")
+        plt.show()
+
+
+    
 
 
 #pokemon class
@@ -730,6 +772,8 @@ def StartMenu(trainer1):
         time.sleep(0.02)
         print("Option 4: Generate report of all pokemon of a certain type (e.g., Fire, Water, Grass, Electric)")
         time.sleep(0.02)
+        print("Option 5: Generate graphs for pokemon stats")
+        time.sleep(0.02)
         print("Option Exit or X: Exits the program")
         user_input = input("")
         
@@ -769,6 +813,9 @@ def StartMenu(trainer1):
                                 f"  sp_defense: {pokemon.sp_defense}\n"
                                 f"  speed: {pokemon.speed}\n\n")
             print(f"Type report saved successfully as {filename}.")
+        elif user_input == ("5"):
+            trainer1.pokedex.graph_stats()
+            print("Graph generation done.")
         #system exit option
         elif user_input.lower() == "exit" or user_input.lower() == "x":
             user_input = input("Would you like to save your current pokedex? (Y/N)")
