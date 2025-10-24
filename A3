@@ -850,63 +850,59 @@ def StartMenu(trainer1):
         elif user_input.lower() == "exit" or user_input.lower() == "x":
             user_input = input("Would you like to save your current pokedex? (Y/N)")
             if user_input.lower() == "y":
-                #make save file
-                filename = input("What file name would you like to save it as? (default: pokemon.txt): ")
-                if not filename:
-                    filename = "pokemon.txt"
-                file_type = filename.split('.')
-                if file_type[1] == "json":
-                    open(filename, "w").close()
-                    with open(filename, "w") as file:
-                        data = []
-                        for pokemon in trainer1.pokedex.PokemonList:
-                            # Skip already loaded Pokémon
-                            if pokemon.name in loaded_pokemon:
-                                continue  
-                            pokemon_data = {
-                                "name": pokemon.name,
-                                "National_number": pokemon.National_number,
-                                "Type": pokemon.Type,
-                                "species": pokemon.species,
-                                "Height": pokemon.Height,
-                                "Weight": pokemon.Weight,
-                                "Abilities": pokemon.Abilities,
-                                "total": pokemon.total,
-                                "hp": pokemon.hp,
-                                "attack": pokemon.attack,
-                                "Defense": pokemon.Defense,
-                                "sp_attack": pokemon.sp_attack,
-                                "sp_defense": pokemon.sp_defense,
-                                "speed": pokemon.speed
-                            }
-                            data.append(pokemon_data)
-                        json.dump(data, file, indent=4)
-                elif file_type[1] == "txt": 
-                    open(filename, "a").close()
-                    with open(filename, "a") as file:
-                        for pokemon in trainer1.pokedex.PokemonList:
-                            # Skip already loaded Pokémon
-                            if pokemon.name in loaded_pokemon:
-                                continue  
-                            abilities_str = ' '.join(pokemon.Abilities) if isinstance(pokemon.Abilities, list) else pokemon.Abilities
-                            file.write("\n"
-                                        f"name: {pokemon.name}\n"
-                                        f"National_number: {pokemon.National_number}\n"
-                                        f"Type: {pokemon.Type}\n"
-                                        f"species: {pokemon.species}\n"
-                                        f"Height: {pokemon.Height}\n"
-                                        f"Weight: {pokemon.Weight}\n"
-                                        f"abilities: {abilities_str}\n"
-                                        f"Stats:\n"
-                                        f"  total: {pokemon.total}\n"
-                                        f"  hp: {pokemon.hp}\n"
-                                        f"  attack: {pokemon.attack}\n"
-                                        f"  Defense: {pokemon.Defense}\n"
-                                        f"  sp_attack: {pokemon.sp_attack}\n"
-                                        f"  sp_defense: {pokemon.sp_defense}\n"
-                                        f"  speed: {pokemon.speed}\n\n")
-                            print("Pokedex saved successfully. Exiting now.")
-                                    
+                #make save file as both json and txt
+                filename = "pokemon.json"
+                open(filename, "w").close()
+                with open(filename, "w") as file:
+                    data = []
+                    for pokemon in trainer1.pokedex.PokemonList:
+                        # Skip already loaded Pokémon
+                        if pokemon.name in loaded_pokemon:
+                            continue  
+                        pokemon_data = {
+                            "name": pokemon.name,
+                            "National_number": pokemon.National_number,
+                            "Type": pokemon.Type,
+                            "species": pokemon.species,
+                            "Height": pokemon.Height,
+                            "Weight": pokemon.Weight,
+                            "Abilities": pokemon.Abilities,
+                            "total": pokemon.total,
+                            "hp": pokemon.hp,
+                            "attack": pokemon.attack,
+                            "Defense": pokemon.Defense,
+                            "sp_attack": pokemon.sp_attack,
+                            "sp_defense": pokemon.sp_defense,
+                            "speed": pokemon.speed
+                        }
+                        data.append(pokemon_data)
+                    json.dump(data, file, indent=4)
+                filename = "pokemon.txt"
+                open(filename, "w").close()
+                with open(filename, "a") as file:
+                    for pokemon in trainer1.pokedex.PokemonList:
+                        # Skip already loaded Pokémon
+                        if pokemon.name in loaded_pokemon:
+                            continue  
+                        abilities_str = ' '.join(pokemon.Abilities) if isinstance(pokemon.Abilities, list) else pokemon.Abilities
+                        file.write("\n"
+                                    f"name: {pokemon.name}\n"
+                                    f"National_number: {pokemon.National_number}\n"
+                                    f"Type: {pokemon.Type}\n"
+                                    f"species: {pokemon.species}\n"
+                                    f"Height: {pokemon.Height}\n"
+                                    f"Weight: {pokemon.Weight}\n"
+                                    f"abilities: {abilities_str}\n"
+                                    f"Stats:\n"
+                                    f"  total: {pokemon.total}\n"
+                                    f"  hp: {pokemon.hp}\n"
+                                    f"  attack: {pokemon.attack}\n"
+                                    f"  Defense: {pokemon.Defense}\n"
+                                    f"  sp_attack: {pokemon.sp_attack}\n"
+                                    f"  sp_defense: {pokemon.sp_defense}\n"
+                                    f"  speed: {pokemon.speed}\n\n")
+                print("Pokedex saved successfully. Exiting now.")
+                                
 
                 sys.exit()
             elif user_input.lower() == "n":
