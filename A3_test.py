@@ -13,10 +13,41 @@ matplotlib.use("Agg")
 
 
 def load_module_from_path(path, name="a3_module"):
-    spec = importlib.util.spec_from_file_location(name, path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
+    import os
+    import importlib.util
+    import types
+
+    # If a directory was passed, try common module filenames inside it
+    if os.path.isdir(path):
+        for candidate in ("A3.py", "a3.py", "__init__.py", "main.py"):
+            candidate_path = os.path.join(path, candidate)
+            if os.path.isfile(candidate_path):
+                path = candidate_path
+                break
+
+    # If given a .py file, load normally
+    if os.path.isfile(path) and path.endswith(".py"):
+        spec = importlib.util.spec_from_file_location(name, path)
+        if spec is None or spec.loader is None:
+            raise ImportError(f"Cannot load module spec from: {path!s}")
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+
+    # If the exact path is a file but not .py, try executing its source in a new module
+    if os.path.isfile(path):
+        with open(path, "r", encoding="utf-8") as f:
+            source = f.read()
+        module = types.ModuleType(name)
+        exec(compile(source, path, "exec"), module.__dict__)
+        return module
+
+    # try adding .py suffix if it exists
+    alt = path + ".py"
+    if os.path.isfile(alt):
+        return load_module_from_path(alt, name)
+
+    raise FileNotFoundError(f"Module file not found: {path!s}")
 
 
 class TestA3GraphSaveLoadEdit(unittest.TestCase):
