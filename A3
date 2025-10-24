@@ -178,15 +178,15 @@ class Pokedex():
     
     def load_save_file(self, filename):
         #custom filename input
-        filename = input("Enter the save file name to load (default: pokemon.txt): ")
+        filename = input("Enter the save file name to load (default: pokemon.json): ")
         if not filename:
-                filename = "pokemon.txt"
+                filename = "pokemon.json"
         file_type = filename.split('.')
         if len(file_type) < 2:
             print("Invalid file name. Please include a file extension (e.g., .txt or .json).")
-            trainer1.pokedex.load_save_file("pokemon.txt")
+            trainer1.pokedex.load_save_file("pokemon.json")
             return
-        if file_type[1] == "txt":
+        if file_type[1] == "json" and file_type[1] == "txt":
             try:
                 with open(filename, 'r') as file:
                     attributes_available = ["Name", "National Number", "Type", "Species", "Height", "Weight", "Abilities","Total", "HP", "Attack", "Defence", "Special Attack", "Special Defense", "Speed"]
