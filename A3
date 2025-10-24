@@ -186,7 +186,7 @@ class Pokedex():
             print("Invalid file name. Please include a file extension (e.g., .txt or .json).")
             trainer1.pokedex.load_save_file("pokemon.json")
             return
-        if file_type[1] == "json" and file_type[1] == "txt":
+        if file_type[1] == "json" or file_type[1] == "txt":
             try:
                 with open(filename, 'r') as file:
                     attributes_available = ["Name", "National Number", "Type", "Species", "Height", "Weight", "Abilities","Total", "HP", "Attack", "Defence", "Special Attack", "Special Defense", "Speed"]
