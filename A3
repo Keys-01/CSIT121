@@ -1,7 +1,6 @@
 import time
 import matplotlib.pyplot as plt
 import json
-import os
 import sys
 global loaded_pokemon
 loaded_pokemon = []
